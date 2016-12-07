@@ -43,15 +43,14 @@ function caesarShiftInt(integer) {
   if (integer < 97) {
     throw 'Error: integer too low';
   } else if (integer > 122) {
-    throw 'Error: integer too high';
+    throw 'Error: integer too high'
   } else if ((integer + 13) > 122) {
     return integer - 13;
-  } else {
-    return integer + 13;
   }
+
+  return integer + 13;
 }
 
-console.log(caesarShiftInt(110));
 
 // Define a function named caesarShiftChar that takes a one argument
 //    char (string of one character)
@@ -66,15 +65,18 @@ console.log(caesarShiftInt(110));
 // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charCodeAt
 //
 // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode
-function caesarShiftChar(char){
-  if (char !== char.toLowerCase) {
+function caesarShiftChar(char) {
+  if (!char.match(/[a-z]/i) || char.length > 1) {
     return char;
   } else {
+    char = char.toLowerCase();
+    const charToNum =  char.charCodeAt(0);
+    const shiftedNum = caesarShiftInt(charToNum);
 
+    return String.fromCharCode(shiftedNum);
   }
 }
 
-console.log(caesarShiftChar('f'));
 
 
 // Define a function named encodeMessage that takes a one argument
@@ -85,10 +87,15 @@ console.log(caesarShiftChar('f'));
 //
 // HINT: You'll need a loop for this.
 function encodeMessage(message) {
-  
+  let returnString = '';
+
+  for (let i = 0; i < message.length; i++) {
+    returnString += caesarShiftChar(message[i]);
+  }
+
+  return returnString;
 }
 
-console.log(encodeMessage('Hello, there!'));
 
 // Define a function named decodeMessage that takes a one argument
 //    message (string)
@@ -97,3 +104,6 @@ console.log(encodeMessage('Hello, there!'));
 // 'uryyb, gurer!', then return 'Hello, there!'.
 //
 // HINT: Is there a way to use the encodeMessage() function?
+function decodeMessage(message) {
+  return encodeMessage(message);
+}
